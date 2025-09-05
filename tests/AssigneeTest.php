@@ -12,89 +12,115 @@ use \Mockery as m;
 
 class AssigneeTest extends TestCase
 {
-    /** @var JsonMapper */
-    public $mapper;
+	/** @var JsonMapper */
+	public $mapper;
 
-    public function setUp(): void
-    {
-        $this->mapper = new JsonMapper();
-        $this->mapper->undefinedPropertyHandler = [new \JiraRestApi\JsonMapperHelper(), 'setUndefinedProperty'];
-        $this->mapper->classMap['\\'.\DateTimeInterface::class] = \DateTime::class;
-    }
+	public function setUp(): void
+	{
+		$this->mapper = new JsonMapper();
+		$this->mapper->undefinedPropertyHandler = [
+			new \JiraRestApi\JsonMapperHelper(),
+			'setUndefinedProperty',
+		];
+		$this->mapper->classMap['\\' . \DateTimeInterface::class] =
+			\DateTime::class;
+	}
 
-    public function tearDown(): void
-    {
-        $this->mapper = null;
-        m::close();
-    }
+	public function tearDown(): void
+	{
+		$this->mapper = null;
+		m::close();
+	}
 
-    public function testAssigneeFieldNull()
-    {
-        $issueField = new IssueField();
+	public function testAssigneeFieldNull()
+	{
+		$issueField = new IssueField();
 
-        $issueField->setProjectKey('TEST')
-            ->setIssueTypeAsString('Bug')
-        ;
+		$issueField->setProjectKey('TEST')->setIssueTypeAsString('Bug');
 
-        $js = $issueField->jsonSerialize();
+		$js = $issueField->jsonSerialize();
 
-        $this->assertArrayNotHasKey('assignee', $js);
-    }
+		$this->assertArrayNotHasKey('assignee', $js);
+	}
 
-    public function testUnassigned()
-    {
-        $issueField = new IssueField();
+	public function testUnassigned()
+	{
+		$issueField = new IssueField();
 
-        $issueField->setProjectKey('TEST')
-            ->setIssueTypeAsString('Bug')
-            ->setAssigneeToUnassigned()
-        ;
+		$issueField
+			->setProjectKey('TEST')
+			->setIssueTypeAsString('Bug')
+			->setAssigneeToUnassigned();
 
-        $js = $issueField->jsonSerialize();
+		$js = $issueField->jsonSerialize();
 
-        $this->assertArrayHasKey('assignee', $js);
+		$this->assertArrayHasKey('assignee', $js);
 
-        $assignee = $js['assignee'];
+		$assignee = $js['assignee'];
 
-        $this->assertEquals(true, property_exists($assignee, 'name'), "Reporter class has not 'name' property");
-        $this->assertEquals(null, $assignee->name, "name field not equal to 'null'");
-    }
+		$this->assertEquals(
+			true,
+			property_exists($assignee, 'name'),
+			"Reporter class has not 'name' property",
+		);
+		$this->assertEquals(
+			null,
+			$assignee->name,
+			"name field not equal to 'null'",
+		);
+	}
 
-    public function testAssigneeFieldDefault()
-    {
-        $issueField = new IssueField();
+	public function testAssigneeFieldDefault()
+	{
+		$issueField = new IssueField();
 
-        $issueField->setProjectKey('TEST')
-            ->setIssueTypeAsString('Bug')
-            ->setAssigneeToDefault()
-        ;
+		$issueField
+			->setProjectKey('TEST')
+			->setIssueTypeAsString('Bug')
+			->setAssigneeToDefault();
 
-        $js = $issueField->jsonSerialize();
+		$js = $issueField->jsonSerialize();
 
-        $this->assertArrayHasKey('assignee', $js);
+		$this->assertArrayHasKey('assignee', $js);
 
-        $assignee = $js['assignee'];
+		$assignee = $js['assignee'];
 
-        $this->assertEquals(true, property_exists($assignee, 'name'), "Reporter class has not 'name' property");
-        $this->assertEquals("-1", $assignee->name, "name field not equal to '-1'");
-    }
+		$this->assertEquals(
+			true,
+			property_exists($assignee, 'name'),
+			"Reporter class has not 'name' property",
+		);
+		$this->assertEquals(
+			'-1',
+			$assignee->name,
+			"name field not equal to '-1'",
+		);
+	}
 
-    public function testAssigneeFieldHasAssignee()
-    {
-        $issueField = new IssueField();
+	public function testAssigneeFieldHasAssignee()
+	{
+		$issueField = new IssueField();
 
-        $issueField->setProjectKey('TEST')
-            ->setIssueTypeAsString('Bug')
-            ->setAssigneeNameAsString('lesstif')
-        ;
+		$issueField
+			->setProjectKey('TEST')
+			->setIssueTypeAsString('Bug')
+			->setAssigneeNameAsString('lesstif');
 
-        $js = $issueField->jsonSerialize();
+		$js = $issueField->jsonSerialize();
 
-        $this->assertArrayHasKey('assignee', $js);
+		$this->assertArrayHasKey('assignee', $js);
 
-        $assignee = $js['assignee'];
+		$assignee = $js['assignee'];
 
-        $this->assertEquals(true, property_exists($assignee, 'name'), "Reporter class has not 'name' property");
-        $this->assertEquals("lesstif", $assignee->name, "name field not equal to ");
-    }
+		$this->assertEquals(
+			true,
+			property_exists($assignee, 'name'),
+			"Reporter class has not 'name' property",
+		);
+		$this->assertEquals(
+			'lesstif',
+			$assignee->name,
+			'name field not equal to ',
+		);
+	}
 }

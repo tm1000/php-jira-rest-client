@@ -12,36 +12,36 @@ use JiraRestApi\ClassSerialize;
  */
 class GroupSearchResult implements \JsonSerializable
 {
-    use ClassSerialize;
+	use ClassSerialize;
 
-    /**
-     * uri which was hit.
-     *
-     * @var string
-     */
-    public $self;
+	/**
+	 * uri which was hit.
+	 *
+	 * @var string
+	 */
+	public $self;
 
-    /**
-     * @var int
-     */
-    public $maxResults;
+	/**
+	 * @var int
+	 */
+	public $maxResults;
 
-    /**
-     * @var int
-     */
-    public $startAt;
+	/**
+	 * @var int
+	 */
+	public $startAt;
 
-    /**
-     * @var int
-     */
-    public $total;
+	/**
+	 * @var int
+	 */
+	public $total;
 
-    /** @var \JiraRestApi\User\User[] */
-    public $values;
+	/** @var \JiraRestApi\User\User[] */
+	public $values;
 
-    #[\ReturnTypeWillChange]
-    public function jsonSerialize(): array
-    {
-        return array_filter(get_object_vars($this));
-    }
+	#[\ReturnTypeWillChange]
+	public function jsonSerialize(): array
+	{
+		return array_filter(get_object_vars($this));
+	}
 }

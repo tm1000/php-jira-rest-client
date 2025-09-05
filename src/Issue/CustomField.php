@@ -4,38 +4,38 @@ namespace JiraRestApi\Issue;
 
 class CustomField implements \JsonSerializable
 {
-    public int $id;
+	public int $id;
 
-    public string $name;
+	public string $name;
 
-    public string $description;
+	public string $description;
 
-    public array $type;
+	public array $type;
 
-    public string $searcherKey;
+	public string $searcherKey;
 
-    public array $projectIds;
+	public array $projectIds;
 
-    public array $issueTypeIds;
+	public array $issueTypeIds;
 
-    public string $self;
+	public string $self;
 
-    public int $numericId;
+	public int $numericId;
 
-    public bool $isLocked;
+	public bool $isLocked;
 
-    public bool $isManaged;
+	public bool $isManaged;
 
-    public bool $isAllProjects;
+	public bool $isAllProjects;
 
-    public bool $isTrusted;
+	public bool $isTrusted;
 
-    public int $projectsCount;
+	public int $projectsCount;
 
-    public int $screensCount;
+	public int $screensCount;
 
-    public function jsonSerialize(): mixed
-    {
-        return array_filter(get_object_vars($this));
-    }
+	public function jsonSerialize(): mixed
+	{
+		return array_filter(get_object_vars($this));
+	}
 }

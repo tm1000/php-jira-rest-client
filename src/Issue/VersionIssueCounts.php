@@ -4,63 +4,62 @@ namespace JiraRestApi\Issue;
 
 class VersionIssueCounts implements \JsonSerializable
 {
-    /** @var string */
-    public $self;
+	/** @var string */
+	public $self;
 
-    /** @var int */
-    public $issuesFixedCount;
+	/** @var int */
+	public $issuesFixedCount;
 
-    /** @var int */
-    public $issuesAffectedCount;
+	/** @var int */
+	public $issuesAffectedCount;
 
-    /** @var int */
-    public $issueCountWithCustomFieldsShowingVersion;
+	/** @var int */
+	public $issueCountWithCustomFieldsShowingVersion;
 
-    /** @var \JiraRestApi\Issue\CustomFieldUsage[] */
-    public $customFieldUsage;
+	/** @var \JiraRestApi\Issue\CustomFieldUsage[] */
+	public $customFieldUsage;
 
-    public function __construct()
-    {
-    }
+	public function __construct() {}
 
-    #[\ReturnTypeWillChange]
-    public function jsonSerialize(): array
-    {
-        return array_filter(get_object_vars($this));
-    }
+	#[\ReturnTypeWillChange]
+	public function jsonSerialize(): array
+	{
+		return array_filter(get_object_vars($this));
+	}
 
-    public function setSelf($self)
-    {
-        $this->self = $self;
+	public function setSelf($self)
+	{
+		$this->self = $self;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    public function setIssuesFixedCount($issuesFixedCount)
-    {
-        $this->issuesFixedCount = $issuesFixedCount;
+	public function setIssuesFixedCount($issuesFixedCount)
+	{
+		$this->issuesFixedCount = $issuesFixedCount;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    public function setIssuesAffectedCount($issuesAffectedCount)
-    {
-        $this->issuesAffectedCount = $issuesAffectedCount;
+	public function setIssuesAffectedCount($issuesAffectedCount)
+	{
+		$this->issuesAffectedCount = $issuesAffectedCount;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    public function setIssueCountWithCustomFieldsShowingVersion($issueCountWithCustomFieldsShowingVersion)
-    {
-        $this->issueCountWithCustomFieldsShowingVersion = $issueCountWithCustomFieldsShowingVersion;
+	public function setIssueCountWithCustomFieldsShowingVersion(
+		$issueCountWithCustomFieldsShowingVersion,
+	) {
+		$this->issueCountWithCustomFieldsShowingVersion = $issueCountWithCustomFieldsShowingVersion;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    public function setCustomFieldUsage($customFieldUsage)
-    {
-        $this->customFieldUsage = $customFieldUsage;
+	public function setCustomFieldUsage($customFieldUsage)
+	{
+		$this->customFieldUsage = $customFieldUsage;
 
-        return $this;
-    }
+		return $this;
+	}
 }

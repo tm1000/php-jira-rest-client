@@ -11,14 +11,14 @@ use JsonSerializable;
 
 class RequestStatus implements JsonSerializable
 {
-    use ClassSerialize;
-    use DataObjectTrait;
+	use ClassSerialize;
+	use DataObjectTrait;
 
-    public string $status;
-    public DateTime $statusDate;
+	public string $status;
+	public DateTime $statusDate;
 
-    public function setStatusDate(array $statusDate): void
-    {
-        $this->statusDate = new DateTime($statusDate['iso8601']);
-    }
+	public function setStatusDate(array $statusDate): void
+	{
+		$this->statusDate = new DateTime($statusDate['iso8601']);
+	}
 }

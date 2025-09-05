@@ -6,16 +6,16 @@ use JiraRestApi\JsonSerializableTrait;
 
 class Epic implements \JsonSerializable
 {
-    use JsonSerializableTrait;
+	use JsonSerializableTrait;
 
-    public int $id;
-    public string $key;
-    public string $self;
-    public string $name;
+	public int $id;
+	public string $key;
+	public string $self;
+	public string $name;
 
-    public string $summary;
+	public string $summary;
 
-    public EpicColor $color;
+	public EpicColor $color;
 
-    public bool $done;
+	public bool $done;
 }

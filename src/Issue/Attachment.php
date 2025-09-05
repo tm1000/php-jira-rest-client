@@ -4,36 +4,36 @@ namespace JiraRestApi\Issue;
 
 class Attachment implements \JsonSerializable
 {
-    /* @var string */
-    public $self;
+	/* @var string */
+	public $self;
 
-    /* @var string */
-    public $id;
+	/* @var string */
+	public $id;
 
-    /* @var string */
-    public $filename;
+	/* @var string */
+	public $filename;
 
-    /* @var \JiraRestApi\Issue\Reporter */
-    public $author;
+	/* @var \JiraRestApi\Issue\Reporter */
+	public $author;
 
-    /* @var \DateTimeInterface */
-    public $created;
+	/* @var \DateTimeInterface */
+	public $created;
 
-    /* @var int */
-    public $size;
+	/* @var int */
+	public $size;
 
-    /* @var string */
-    public $mimeType;
+	/* @var string */
+	public $mimeType;
 
-    /* @var string */
-    public $content;
+	/* @var string */
+	public $content;
 
-    /* @var string */
-    public $thumbnail;
+	/* @var string */
+	public $thumbnail;
 
-    #[\ReturnTypeWillChange]
-    public function jsonSerialize(): array
-    {
-        return array_filter(get_object_vars($this));
-    }
+	#[\ReturnTypeWillChange]
+	public function jsonSerialize(): array
+	{
+		return array_filter(get_object_vars($this));
+	}
 }

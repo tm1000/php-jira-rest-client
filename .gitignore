@@ -37,3 +37,7 @@ storage/
 .phpunit.result.cache
 .env*
 .php_cs.cache
+
+#npm
+node_modules
+package-lock.json

@@ -2,19 +2,12 @@
 
 namespace JiraRestApi;
 
-use Monolog\Handler\AbstractProcessingHandler;
+use Monolog\Handler\NoopHandler;
 
-class NoOperationMonologHandler extends AbstractProcessingHandler
+/**
+ * Alias class for backward compatibility with Monolog v3
+ */
+class NoOperationMonologHandler extends NoopHandler
 {
-    /**
-     * Writes the record down to the log of the implementing handler.
-     *
-     * @param array $record
-     *
-     * @return void
-     */
-    protected function write(array $record): void
-    {
-        // do nothing
-    }
+	// This class is an alias for NoopHandler in Monolog v3
 }

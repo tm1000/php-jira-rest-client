@@ -12,40 +12,40 @@ use JiraRestApi\ClassSerialize;
  */
 class Group implements \JsonSerializable
 {
-    use ClassSerialize;
+	use ClassSerialize;
 
-    /**
-     * uri which was hit.
-     *
-     * @var string
-     */
-    public $self;
+	/**
+	 * uri which was hit.
+	 *
+	 * @var string
+	 */
+	public $self;
 
-    /**
-     * @var string
-     */
-    public $name;
+	/**
+	 * @var string
+	 */
+	public $name;
 
-    /**
-     * @var GroupUser
-     */
-    public $users;
+	/**
+	 * @var GroupUser
+	 */
+	public $users;
 
-    /**
-     * @var object
-     */
-    public $expand;
+	/**
+	 * @var object
+	 */
+	public $expand;
 
-    #[\ReturnTypeWillChange]
-    public function jsonSerialize(): array
-    {
-        return array_filter(get_object_vars($this));
-    }
+	#[\ReturnTypeWillChange]
+	public function jsonSerialize(): array
+	{
+		return array_filter(get_object_vars($this));
+	}
 
-    public function setName($name)
-    {
-        $this->name = $name;
+	public function setName($name)
+	{
+		$this->name = $name;
 
-        return $this;
-    }
+		return $this;
+	}
 }

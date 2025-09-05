@@ -9,21 +9,21 @@ namespace JiraRestApi\Issue;
  */
 class History implements \JsonSerializable
 {
-    /** @var int */
-    public $id;
+	/** @var int */
+	public $id;
 
-    /** @var \JiraRestApi\Issue\Reporter */
-    public $author;
+	/** @var \JiraRestApi\Issue\Reporter */
+	public $author;
 
-    /** @var string */
-    public $created;
+	/** @var string */
+	public $created;
 
-    /** @var array|null */
-    public $items;
+	/** @var array|null */
+	public $items;
 
-    #[\ReturnTypeWillChange]
-    public function jsonSerialize(): array
-    {
-        return array_filter(get_object_vars($this));
-    }
+	#[\ReturnTypeWillChange]
+	public function jsonSerialize(): array
+	{
+		return array_filter(get_object_vars($this));
+	}
 }

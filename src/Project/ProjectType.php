@@ -6,15 +6,15 @@ use JiraRestApi\ClassSerialize;
 
 class ProjectType
 {
-    use ClassSerialize;
+	use ClassSerialize;
 
-    public string $key;
+	public string $key;
 
-    public string $formattedKey;
+	public string $formattedKey;
 
-    public string $descriptionI18nKey;
+	public string $descriptionI18nKey;
 
-    public string $icon;
+	public string $icon;
 
-    public string $color;
+	public string $color;
 }

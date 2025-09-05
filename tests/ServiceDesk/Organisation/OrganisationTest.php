@@ -9,16 +9,13 @@ use PHPUnit\Framework\TestCase;
 
 class OrganisationTest extends TestCase
 {
-    public function testSetLinks(): void
-    {
-        $links = [
-            'http://example.com',
-            'http://example2.com',
-        ];
+	public function testSetLinks(): void
+	{
+		$links = ['http://example.com', 'http://example2.com'];
 
-        $uut = new Organisation();
-        $uut->setLinks($links);
+		$uut = new Organisation();
+		$uut->setLinks($links);
 
-        self::assertSame($links, $uut->_links);
-    }
+		self::assertSame($links, $uut->_links);
+	}
 }

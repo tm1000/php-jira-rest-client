@@ -1,0 +1,28 @@
+{
+  "php.suggest.basic": false,
+  "editor.formatOnSave": true,
+  "[php]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "workbench.colorCustomizations": {},
+  "psalm.configPaths": ["psalm.xml"],
+  "psalm.psalmScriptPath": "vendor/bin/psalm-language-server",
+  "phpCodeSniffer.exec.linux": "vendor/bin/phpcs",
+  "phpCodeSniffer.standard": "Custom",
+  "phpCodeSniffer.standardCustom": "phpcs.xml",
+  "psalm.psalmScriptArgs": [
+    "--on-change-debounce-ms=500",
+    "--show-diagnostic-warnings=false"
+  ],
+  "intelephense.environment.phpVersion": "8.4.0",
+  "php.validate.enable": false,
+  "coverage-gutters.showLineCoverage": true,
+  "coverage-gutters.showRulerCoverage": true,
+  "coverage-gutters.coverageBaseDir": "output/**",
+  "prettier.documentSelectors": [
+    "**/*.php",
+    "**/*.json",
+    "**/*.yml",
+    "**/*.xml"
+  ]
+}

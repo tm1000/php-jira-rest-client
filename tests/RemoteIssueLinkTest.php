@@ -9,77 +9,76 @@ use JiraRestApi\JiraException;
 
 class RemoteIssueLinkTest extends TestCase
 {
+	public function testCreateRemoteIssueLink()
+	{
+		$issueKey = 'TEST-316';
 
-    public function testCreateRemoteIssueLink()
-    {
-        $issueKey = 'TEST-316';
+		try {
+			$issueService = new IssueService();
 
-        try {
-            $issueService = new IssueService();
+			$ril = new RemoteIssueLink();
 
-            $ril = new RemoteIssueLink();
+			$ril->setUrl('http://www.mycompany.com/support?id=1')
+				->setTitle('Remote Link Title')
+				->setRelationship('causes')
+				->setSummary('Crazy customer support issue');
 
-            $ril->setUrl('http://www.mycompany.com/support?id=1')
-                ->setTitle('Remote Link Title')
-                ->setRelationship('causes')
-                ->setSummary('Crazy customer support issue')
-            ;
+			$issueService->createOrUpdateRemoteIssueLink($issueKey, $ril);
 
-            $issueService->createOrUpdateRemoteIssueLink($issueKey, $ril);
+			return $issueKey;
+		} catch (JiraException $e) {
+			$this->assertTrue(false, 'Create Failed : ' . $e->getMessage());
+		}
+	}
 
-            return $issueKey;
-        } catch (JiraException $e) {
-            $this->assertTrue(false, 'Create Failed : '.$e->getMessage());
-        }
-    }
+	/**
+	 * @depends testCreateRemoteIssueLink
+	 */
+	public function testGetRemoteIssue($issueKey)
+	{
+		try {
+			$issueService = new IssueService();
 
-    /**
-     * @depends testCreateRemoteIssueLink
-     */
-    public function testGetRemoteIssue($issueKey)
-    {
+			$rils = $issueService->getRemoteIssueLink($issueKey);
 
-        try {
-            $issueService = new IssueService();
+			$this->assertGreaterThan(0, count($rils));
 
-            $rils = $issueService->getRemoteIssueLink($issueKey);
+			$this->assertInstanceOf(RemoteIssueLink::class, $rils[0]);
 
-            $this->assertGreaterThan(0, count($rils));
+			return $issueKey;
+		} catch (HTTPException $e) {
+			$this->assertTrue(false, $e->getMessage());
+		}
+	}
 
-            $this->assertInstanceOf(RemoteIssueLink::class, $rils[0]);
+	/**
+	 * @depends testGetRemoteIssue
+	 */
+	public function testDeleteRemoteIssueLink($issueKey)
+	{
+		try {
+			$issueService = new IssueService();
 
-            return $issueKey;
-        } catch (HTTPException $e) {
-            $this->assertTrue(false, $e->getMessage());
-        }
-    }
+			$rils = $issueService->getRemoteIssueLink($issueKey);
+			$countBefore = count($rils);
 
+			/** @var RemoteIssueLink $firstRil */
+			$firstRil = $rils[0];
 
-    /**
-     * @depends testGetRemoteIssue
-     */
-    public function testDeleteRemoteIssueLink($issueKey)
-    {
-        try {
-            $issueService = new IssueService();
+			$ret = $issueService->removeRemoteIssueLink(
+				$issueKey,
+				$firstRil->globalId,
+			);
 
-            $rils = $issueService->getRemoteIssueLink($issueKey);
-            $countBefore = count($rils);
+			$this->assertTrue($ret);
 
-            /** @var RemoteIssueLink $firstRil */
-            $firstRil = $rils[0];
+			$rilsAfter = $issueService->getRemoteIssueLink($issueKey);
 
-            $ret = $issueService->removeRemoteIssueLink($issueKey, $firstRil->globalId);
+			$this->assertLessThan($countBefore, count($rilsAfter));
 
-            $this->assertTrue($ret);
-
-            $rilsAfter = $issueService->getRemoteIssueLink($issueKey);
-
-            $this->assertLessThan($countBefore, count($rilsAfter));
-
-            return $issueKey;
-        } catch (JiraException $e) {
-            $this->assertTrue(false, 'Remove Failed : '.$e->getMessage());
-        }
-    }
+			return $issueKey;
+		} catch (JiraException $e) {
+			$this->assertTrue(false, 'Remove Failed : ' . $e->getMessage());
+		}
+	}
 }

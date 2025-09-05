@@ -10,159 +10,164 @@ use JiraRestApi\JiraException;
  */
 class Worklog
 {
-    use ClassSerialize;
-    use VisibilityTrait;
+	use ClassSerialize;
+	use VisibilityTrait;
 
-    /**
-     * @var int id of worklog
-     */
-    public $id;
+	/**
+	 * @var int id of worklog
+	 */
+	public $id;
 
-    /**
-     * @var string api link of worklog
-     */
-    public $self;
+	/**
+	 * @var string api link of worklog
+	 */
+	public $self;
 
-    /**
-     * @var array details about author
-     */
-    public $author;
+	/**
+	 * @var array details about author
+	 */
+	public $author;
 
-    /**
-     * @var array
-     */
-    public $updateAuthor;
+	/**
+	 * @var array
+	 */
+	public $updateAuthor;
 
-    /**
-     * @var string
-     */
-    public $updated;
+	/**
+	 * @var string
+	 */
+	public $updated;
 
-    /**
-     * @var string
-     */
-    public $timeSpent;
+	/**
+	 * @var string
+	 */
+	public $timeSpent;
 
-    /**
-     * @var mixed
-     *
-     * API V2 accepts a string, whereas API V3 requires an Atlassian Document
-     * Format, defined in this project by the ContentField class.
-     */
-    public $comment;
+	/**
+	 * @var mixed
+	 *
+	 * API V2 accepts a string, whereas API V3 requires an Atlassian Document
+	 * Format, defined in this project by the ContentField class.
+	 */
+	public $comment;
 
-    /**
-     * @var string
-     */
-    public $started;
+	/**
+	 * @var string
+	 */
+	public $started;
 
-    /**
-     * @var int
-     */
-    public $timeSpentSeconds;
+	/**
+	 * @var int
+	 */
+	public $timeSpentSeconds;
 
-    /**
-     * @var \JiraRestApi\Issue\Visibility
-     */
-    public $visibility;
+	/**
+	 * @var \JiraRestApi\Issue\Visibility
+	 */
+	public $visibility;
 
-    public string $issueId;
+	public string $issueId;
 
-    public string $created;
+	public string $created;
 
-    /**
-     * Function to serialize obj vars.
-     *
-     * @return array
-     */
-    #[\ReturnTypeWillChange]
-    public function jsonSerialize(): array
-    {
-        return array_filter(get_object_vars($this));
-    }
+	/**
+	 * Function to serialize obj vars.
+	 *
+	 * @return array
+	 */
+	#[\ReturnTypeWillChange]
+	public function jsonSerialize(): array
+	{
+		return array_filter(get_object_vars($this));
+	}
 
-    /**
-     * Function to set comments.
-     *
-     * @param mixed $comment
-     *
-     * @return Worklog
-     */
-    public function setComment($comment)
-    {
-        $this->comment = $comment;
+	/**
+	 * Function to set comments.
+	 *
+	 * @param mixed $comment
+	 *
+	 * @return Worklog
+	 */
+	public function setComment($comment)
+	{
+		$this->comment = $comment;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    // Note that in the docblock below, you cannot replace `mixed` by `\DateTimeInterface|string` because JsonMapper doesn't support that,
-    // see <https://github.com/cweiske/jsonmapper/issues/64#issuecomment-269545585>.
+	// Note that in the docblock below, you cannot replace `mixed` by `\DateTimeInterface|string` because JsonMapper doesn't support that,
+	// see <https://github.com/cweiske/jsonmapper/issues/64#issuecomment-269545585>.
 
-    /**
-     * Function to set start time of worklog.
-     *
-     * @param mixed $started started time value(\DateTimeInterface|string)  e.g. -  new \DateTime("2016-03-17 11:15:34") or "2016-03-17 11:15:34"
-     *
-     * @throws JiraException
-     *
-     * @return Worklog
-     */
-    public function setStarted($started)
-    {
-        if (is_string($started)) {
-            $dt = new \DateTime($started);
-        } elseif ($started instanceof \DateTimeInterface) {
-            $dt = $started;
-        } else {
-            throw new JiraException('field only accept date string or DateTimeInterface object.'.get_class($started));
-        }
+	/**
+	 * Function to set start time of worklog.
+	 *
+	 * @param mixed $started started time value(\DateTimeInterface|string)  e.g. -  new \DateTime("2016-03-17 11:15:34") or "2016-03-17 11:15:34"
+	 *
+	 * @throws JiraException
+	 *
+	 * @return Worklog
+	 */
+	public function setStarted($started)
+	{
+		if (is_string($started)) {
+			$dt = new \DateTime($started);
+		} elseif ($started instanceof \DateTimeInterface) {
+			$dt = $started;
+		} else {
+			throw new JiraException(
+				'field only accept date string or DateTimeInterface object.' .
+					get_class($started),
+			);
+		}
 
-        // workround micro second
-        $this->started = $dt->format("Y-m-d\TH:i:s").'.000'.$dt->format('O');
+		// workround micro second
+		$this->started =
+			$dt->format('Y-m-d\TH:i:s') . '.000' . $dt->format('O');
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Function to set start time of worklog.
-     *
-     * @param \DateTimeInterface $started e.g. -  new \DateTime("2014-04-05 16:00:00")
-     *
-     * @return Worklog
-     */
-    public function setStartedDateTime($started)
-    {
-        // workround micro second
-        $this->started = $started->format("Y-m-d\TH:i:s").'.000'.$started->format('O');
+	/**
+	 * Function to set start time of worklog.
+	 *
+	 * @param \DateTimeInterface $started e.g. -  new \DateTime("2014-04-05 16:00:00")
+	 *
+	 * @return Worklog
+	 */
+	public function setStartedDateTime($started)
+	{
+		// workround micro second
+		$this->started =
+			$started->format('Y-m-d\TH:i:s') . '.000' . $started->format('O');
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Function to set worklog time in string.
-     *
-     * @param string $timeSpent
-     *
-     * @return Worklog
-     */
-    public function setTimeSpent($timeSpent)
-    {
-        $this->timeSpent = $timeSpent;
+	/**
+	 * Function to set worklog time in string.
+	 *
+	 * @param string $timeSpent
+	 *
+	 * @return Worklog
+	 */
+	public function setTimeSpent($timeSpent)
+	{
+		$this->timeSpent = $timeSpent;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Function to set worklog time in seconds.
-     *
-     * @param int $timeSpentSeconds
-     *
-     * @return Worklog
-     */
-    public function setTimeSpentSeconds($timeSpentSeconds)
-    {
-        $this->timeSpentSeconds = $timeSpentSeconds;
+	/**
+	 * Function to set worklog time in seconds.
+	 *
+	 * @param int $timeSpentSeconds
+	 *
+	 * @return Worklog
+	 */
+	public function setTimeSpentSeconds($timeSpentSeconds)
+	{
+		$this->timeSpentSeconds = $timeSpentSeconds;
 
-        return $this;
-    }
+		return $this;
+	}
 }

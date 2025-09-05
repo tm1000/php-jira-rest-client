@@ -10,182 +10,225 @@ use JiraRestApi\Project\ProjectService;
 
 class VersionService extends \JiraRestApi\JiraClient
 {
-    private $uri = '/version';
+	private $uri = '/version';
 
-    /**
-     * Function to create a new project version.
-     *
-     * @param Version|array $version
-     *
-     * @throws \JiraRestApi\JiraException
-     * @throws \JsonMapper_Exception
-     *
-     * @return Version Version class
-     */
-    public function create($version)
-    {
-        if ($version->releaseDate instanceof \DateTimeInterface) {
-            $version->releaseDate = $version->releaseDate->format('Y-m-d');
-        }
-        $data = json_encode($version);
+	/**
+	 * Search versions.
+	 *
+	 * @param string $query optional string that version names will be matched with
+	 *
+	 * @throws \JsonMapper_Exception
+	 * @throws JiraException
+	 *
+	 * @return VersionSearchResult
+	 */
+	public function search(
+		string $query = '',
+		int $startAt = 0,
+		int $maxResults = 15,
+		array $projectIds = [],
+	) {
+		$params = [
+			'query' => $query ?: null,
+			'startAt' => $startAt,
+			'maxResults' => $maxResults,
+			'projectIds' => $projectIds ?: null,
+		];
 
-        $this->log->info("Create Version=\n".$data);
+		$ret = $this->exec(
+			$this->uri . $this->toHttpQueryParameter($params, true),
+		);
 
-        $ret = $this->exec($this->uri, $data, 'POST');
+		return $this->json_mapper->map(
+			json_decode($ret),
+			new VersionSearchResult(),
+		);
+	}
 
-        return $this->json_mapper->map(
-            json_decode($ret),
-            Version::class
-        );
-    }
+	/**
+	 * Function to create a new project version.
+	 *
+	 * @param Version|array $version
+	 *
+	 * @throws \JiraRestApi\JiraException
+	 * @throws \JsonMapper_Exception
+	 *
+	 * @return Version Version class
+	 */
+	public function create($version)
+	{
+		if ($version->releaseDate instanceof \DateTimeInterface) {
+			$version->releaseDate = $version->releaseDate->format('Y-m-d');
+		}
+		$data = json_encode($version);
 
-    /**
-     * Modify a version's sequence within a project.
-     *
-     * @param Version $version
-     *
-     * @throws JiraException
-     */
-    public function move(Version $version)
-    {
-        throw new JiraException('move version not yet implemented');
-    }
+		$this->log->info("Create Version=\n" . $data);
 
-    /**
-     * get project version.
-     *
-     * @param string $id version id
-     *
-     * @throws JiraException
-     * @throws \JsonMapper_Exception
-     *
-     * @return Version
-     *
-     * @see ProjectService::getVersions()
-     */
-    public function get(string $id)
-    {
-        $ret = $this->exec($this->uri.'/'.$id);
+		$ret = $this->exec($this->uri, $data, 'POST');
 
-        $this->log->info('Result='.$ret);
+		return $this->json_mapper->map(json_decode($ret), Version::class);
+	}
 
-        return $this->json_mapper->map(
-            json_decode($ret),
-            Version::class
-        );
-    }
+	/**
+	 * Modify a version's sequence within a project.
+	 *
+	 * @param Version $version
+	 *
+	 * @throws JiraException
+	 */
+	public function move(Version $version): never
+	{
+		throw new JiraException('move version not yet implemented');
+	}
 
-    /**
-     * @author Martijn Smidt <martijn@squeezely.tech>
-     *
-     * @param Version $version
-     *
-     * @throws JiraException
-     *
-     * @return Version
-     */
-    public function update(Version $version): Version
-    {
-        if (!$version->id || !is_numeric($version->id)) {
-            throw new JiraException($version->id.' is not a valid version id.');
-        }
+	/**
+	 * get project version.
+	 *
+	 * @param string $id version id
+	 *
+	 * @throws JiraException
+	 * @throws \JsonMapper_Exception
+	 *
+	 * @return Version
+	 *
+	 * @see ProjectService::getVersions()
+	 */
+	public function get(string $id)
+	{
+		$ret = $this->exec($this->uri . '/' . $id);
 
-        // avoid weird error "Only one of 'releaseDate' and 'userReleaseDate' can be specified when editing a version."
-        $version->userReleaseDate = null;
-        $version->userStartDate = null;
+		$this->log->info('Result=' . $ret);
 
-        $data = json_encode($version);
+		return $this->json_mapper->map(json_decode($ret), Version::class);
+	}
 
-        $ret = $this->exec($this->uri.'/'.$version->id, $data, 'PUT');
+	/**
+	 * @author Martijn Smidt <martijn@squeezely.tech>
+	 *
+	 * @param Version $version
+	 *
+	 * @throws JiraException
+	 *
+	 * @return Version
+	 */
+	public function update(Version $version): Version
+	{
+		if (!$version->id || !is_numeric($version->id)) {
+			throw new JiraException(
+				$version->id . ' is not a valid version id.',
+			);
+		}
 
-        return $this->json_mapper->map(
-            json_decode($ret),
-            Version::class
-        );
-    }
+		// avoid weird error "Only one of 'releaseDate' and 'userReleaseDate' can be specified when editing a version."
+		$version->userReleaseDate = null;
+		$version->userStartDate = null;
 
-    /**
-     * @author Martijn Smidt <martijn@squeezely.tech>
-     *
-     * @param Version      $version
-     * @param Version|bool $moveAffectedIssuesTo
-     * @param Version|bool $moveFixIssuesTo
-     *
-     * @throws JiraException
-     *
-     * @return string
-     */
-    public function delete(Version $version, $moveAffectedIssuesTo = false, $moveFixIssuesTo = false)
-    {
-        if (!$version->id || !is_numeric($version->id)) {
-            throw new JiraException($version->id.' is not a valid version id.');
-        }
+		$data = json_encode($version);
 
-        $data = [];
+		$ret = $this->exec($this->uri . '/' . $version->id, $data, 'PUT');
 
-        if ($moveAffectedIssuesTo && $moveAffectedIssuesTo instanceof Version) {
-            $data['moveAffectedIssuesTo'] = $moveAffectedIssuesTo->name;
-        }
+		return $this->json_mapper->map(json_decode($ret), Version::class);
+	}
 
-        if ($moveFixIssuesTo && $moveFixIssuesTo instanceof Version) {
-            $data['moveFixIssuesTo'] = $moveFixIssuesTo->name;
-        }
+	/**
+	 * @author Martijn Smidt <martijn@squeezely.tech>
+	 *
+	 * @param Version      $version
+	 * @param Version|bool $moveAffectedIssuesTo
+	 * @param Version|bool $moveFixIssuesTo
+	 *
+	 * @throws JiraException
+	 *
+	 * @return string
+	 */
+	public function delete(
+		Version $version,
+		$moveAffectedIssuesTo = false,
+		$moveFixIssuesTo = false,
+	) {
+		if (!$version->id || !is_numeric($version->id)) {
+			throw new JiraException(
+				$version->id . ' is not a valid version id.',
+			);
+		}
 
-        $ret = $this->exec($this->uri.'/'.$version->id, json_encode($data), 'DELETE');
+		$data = [];
 
-        return $ret;
-    }
+		if ($moveAffectedIssuesTo && $moveAffectedIssuesTo instanceof Version) {
+			$data['moveAffectedIssuesTo'] = $moveAffectedIssuesTo->name;
+		}
 
-    public function merge($ver)
-    {
-        throw new JiraException('merge version not yet implemented');
-    }
+		if ($moveFixIssuesTo && $moveFixIssuesTo instanceof Version) {
+			$data['moveFixIssuesTo'] = $moveFixIssuesTo->name;
+		}
 
-    /**
-     * Returns a bean containing the number of fixed in and affected issues for the given version.
-     *
-     * @param Version $version
-     *
-     * @throws JiraException
-     *
-     * @see https://docs.atlassian.com/jira/REST/server/#api/2/version-getVersionRelatedIssues
-     */
-    public function getRelatedIssues(Version $version)
-    {
-        if (!$version->id || !is_numeric($version->id)) {
-            throw new JiraException($version->id.' is not a valid version id.');
-        }
+		$ret = $this->exec(
+			$this->uri . '/' . $version->id,
+			json_encode($data),
+			'DELETE',
+		);
 
-        $ret = $this->exec($this->uri.'/'.$version->id.'/relatedIssueCounts');
+		return $ret;
+	}
 
-        return $this->json_mapper->map(
-            json_decode($ret),
-            new VersionIssueCounts()
-        );
-    }
+	public function merge($ver): never
+	{
+		throw new JiraException('merge version not yet implemented');
+	}
 
-    /**
-     * Returns a bean containing the number of unresolved issues for the given version.
-     *
-     * @param Version $version
-     *
-     * @throws JiraException
-     *
-     * @see https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/version-getVersionUnresolvedIssues
-     *
-     * @return VersionUnresolvedCount
-     */
-    public function getUnresolvedIssues(Version $version)
-    {
-        if (!$version->id || !is_numeric($version->id)) {
-            throw new JiraException($version->id.' is not a valid version id.');
-        }
+	/**
+	 * Returns a bean containing the number of fixed in and affected issues for the given version.
+	 *
+	 * @param Version $version
+	 *
+	 * @throws JiraException
+	 *
+	 * @see https://docs.atlassian.com/jira/REST/server/#api/2/version-getVersionRelatedIssues
+	 */
+	public function getRelatedIssues(Version $version)
+	{
+		if (!$version->id || !is_numeric($version->id)) {
+			throw new JiraException(
+				$version->id . ' is not a valid version id.',
+			);
+		}
 
-        $ret = $this->exec($this->uri.'/'.$version->id.'/unresolvedIssueCount');
+		$ret = $this->exec(
+			$this->uri . '/' . $version->id . '/relatedIssueCounts',
+		);
 
-        return $this->json_mapper->map(
-            json_decode($ret),
-            new VersionUnresolvedCount()
-        );
-    }
+		return $this->json_mapper->map(
+			json_decode($ret),
+			new VersionIssueCounts(),
+		);
+	}
+
+	/**
+	 * Returns a bean containing the number of unresolved issues for the given version.
+	 *
+	 * @param Version $version
+	 *
+	 * @throws JiraException
+	 *
+	 * @see https://docs.atlassian.com/software/jira/docs/api/REST/latest/#api/2/version-getVersionUnresolvedIssues
+	 *
+	 * @return VersionUnresolvedCount
+	 */
+	public function getUnresolvedIssues(Version $version)
+	{
+		if (!$version->id || !is_numeric($version->id)) {
+			throw new JiraException(
+				$version->id . ' is not a valid version id.',
+			);
+		}
+
+		$ret = $this->exec(
+			$this->uri . '/' . $version->id . '/unresolvedIssueCount',
+		);
+
+		return $this->json_mapper->map(
+			json_decode($ret),
+			new VersionUnresolvedCount(),
+		);
+	}
 }
