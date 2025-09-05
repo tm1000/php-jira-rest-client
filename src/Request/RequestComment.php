@@ -4,48 +4,48 @@ namespace JiraRestApi\Request;
 
 class RequestComment implements \JsonSerializable
 {
-	/** @var string */
-	public $id;
+    /** @var string */
+    public $id;
 
-	/** @var string */
-	public $body;
+    /** @var string */
+    public $body;
 
-	/** @var bool */
-	public $public;
+    /** @var bool */
+    public $public;
 
-	/** @var \JiraRestApi\Request\Author */
-	public $author;
+    /** @var \JiraRestApi\Request\Author */
+    public $author;
 
-	/** @var \DateTimeInterface */
-	public $created;
+    /** @var \DateTimeInterface */
+    public $created;
 
-	/**
-	 * @param string $body
-	 *
-	 * @return $this
-	 */
-	public function setBody(string $body)
-	{
-		$this->body = $body;
+    /**
+     * @param string $body
+     *
+     * @return $this
+     */
+    public function setBody(string $body)
+    {
+        $this->body = $body;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * @param bool $public True for is public, false otherwise
-	 *
-	 * @return $this
-	 */
-	public function setIsPublic(bool $public)
-	{
-		$this->public = $public;
+    /**
+     * @param bool $public True for is public, false otherwise
+     *
+     * @return $this
+     */
+    public function setIsPublic(bool $public)
+    {
+        $this->public = $public;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	#[\ReturnTypeWillChange]
-	public function jsonSerialize(): array
-	{
-		return array_filter(get_object_vars($this), fn($var) => $var !== null);
-	}
+    #[\ReturnTypeWillChange]
+    public function jsonSerialize(): array
+    {
+        return array_filter(get_object_vars($this), fn($var) => $var !== null);
+    }
 }

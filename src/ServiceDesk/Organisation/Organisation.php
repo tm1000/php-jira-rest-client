@@ -10,15 +10,15 @@ use JsonSerializable;
 
 class Organisation implements JsonSerializable
 {
-	use ClassSerialize;
-	use DataObjectTrait;
+    use ClassSerialize;
+    use DataObjectTrait;
 
-	public int $id;
-	public string $name;
-	public array $_links;
+    public int $id;
+    public string $name;
+    public array $_links;
 
-	public function setLinks(array $links): void
-	{
-		$this->_links = $links;
-	}
+    public function setLinks(array $links): void
+    {
+        $this->_links = $links;
+    }
 }

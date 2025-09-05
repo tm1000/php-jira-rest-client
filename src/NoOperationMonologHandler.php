@@ -9,5 +9,5 @@ use Monolog\Handler\NoopHandler;
  */
 class NoOperationMonologHandler extends NoopHandler
 {
-	// This class is an alias for NoopHandler in Monolog v3
+    // This class is an alias for NoopHandler in Monolog v3
 }

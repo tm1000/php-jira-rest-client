@@ -1,14 +1,13 @@
 {
 	"tabWidth": 4,
 	"singleQuote": true,
-	"useTabs": true,
+	"useTabs": false,
 	"plugins": ["@prettier/plugin-php"],
 	"overrides": [
 		{
 			"files": ["*.php"],
 			"options": {
 				"parser": "php",
-				"phpVersion": "8.1",
 				"trailingCommaPHP": true,
 				"braceStyle": "psr-2"
 			}

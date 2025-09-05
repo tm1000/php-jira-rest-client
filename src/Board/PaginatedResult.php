@@ -7,123 +7,123 @@ namespace JiraRestApi\Board;
  */
 class PaginatedResult
 {
-	/**
-	 * @var string
-	 */
-	public $expand;
+    /**
+     * @var string
+     */
+    public $expand;
 
-	/**
-	 * @var int
-	 */
-	public $startAt;
+    /**
+     * @var int
+     */
+    public $startAt;
 
-	/**
-	 * @var int
-	 */
-	public $maxResults;
+    /**
+     * @var int
+     */
+    public $maxResults;
 
-	/**
-	 * @var int
-	 */
-	public $total;
+    /**
+     * @var int
+     */
+    public $total;
 
-	/**
-	 * @var array
-	 */
-	public $values;
+    /**
+     * @var array
+     */
+    public $values;
 
-	/**
-	 * @var bool
-	 */
-	public $isLast;
+    /**
+     * @var bool
+     */
+    public $isLast;
 
-	/**
-	 * @return int
-	 */
-	public function getStartAt()
-	{
-		return $this->startAt;
-	}
+    /**
+     * @return int
+     */
+    public function getStartAt()
+    {
+        return $this->startAt;
+    }
 
-	/**
-	 * @param int $startAt
-	 */
-	public function setStartAt($startAt)
-	{
-		$this->startAt = $startAt;
-	}
+    /**
+     * @param int $startAt
+     */
+    public function setStartAt($startAt)
+    {
+        $this->startAt = $startAt;
+    }
 
-	/**
-	 * @return int
-	 */
-	public function getMaxResults()
-	{
-		return $this->maxResults;
-	}
+    /**
+     * @return int
+     */
+    public function getMaxResults()
+    {
+        return $this->maxResults;
+    }
 
-	/**
-	 * @param int $maxResults
-	 */
-	public function setMaxResults($maxResults)
-	{
-		$this->maxResults = $maxResults;
-	}
+    /**
+     * @param int $maxResults
+     */
+    public function setMaxResults($maxResults)
+    {
+        $this->maxResults = $maxResults;
+    }
 
-	/**
-	 * @return int
-	 */
-	public function getTotal()
-	{
-		return $this->total;
-	}
+    /**
+     * @return int
+     */
+    public function getTotal()
+    {
+        return $this->total;
+    }
 
-	/**
-	 * @param int $total
-	 */
-	public function setTotal($total)
-	{
-		$this->total = $total;
-	}
+    /**
+     * @param int $total
+     */
+    public function setTotal($total)
+    {
+        $this->total = $total;
+    }
 
-	/**
-	 * @return array
-	 */
-	public function getValues()
-	{
-		return $this->values;
-	}
+    /**
+     * @return array
+     */
+    public function getValues()
+    {
+        return $this->values;
+    }
 
-	/**
-	 * @param array $values
-	 */
-	public function setValues($values)
-	{
-		$this->values = $values;
-	}
+    /**
+     * @param array $values
+     */
+    public function setValues($values)
+    {
+        $this->values = $values;
+    }
 
-	/**
-	 * @param int $index
-	 *
-	 * @return mixed
-	 */
-	public function getValue($index)
-	{
-		return $this->values[$index];
-	}
+    /**
+     * @param int $index
+     *
+     * @return mixed
+     */
+    public function getValue($index)
+    {
+        return $this->values[$index];
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getExpand()
-	{
-		return $this->expand;
-	}
+    /**
+     * @return string
+     */
+    public function getExpand()
+    {
+        return $this->expand;
+    }
 
-	/**
-	 * @param string $expand
-	 */
-	public function setExpand($expand)
-	{
-		$this->expand = $expand;
-	}
+    /**
+     * @param string $expand
+     */
+    public function setExpand($expand)
+    {
+        $this->expand = $expand;
+    }
 }

@@ -10,9 +10,9 @@ use JsonSerializable;
 
 class CustomerLinks implements JsonSerializable
 {
-	use ClassSerialize;
-	use DataObjectTrait;
+    use ClassSerialize;
+    use DataObjectTrait;
 
-	public string $jiraRest;
-	public object $avatarUrls;
+    public string $jiraRest;
+    public object $avatarUrls;
 }

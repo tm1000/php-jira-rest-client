@@ -6,7 +6,7 @@ use JiraRestApi\JsonSerializableTrait;
 
 class EpicColor implements \JsonSerializable
 {
-	use JsonSerializableTrait;
+    use JsonSerializableTrait;
 
-	public string $key;
+    public string $key;
 }

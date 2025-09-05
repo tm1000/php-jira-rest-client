@@ -6,70 +6,70 @@ use JiraRestApi\ClassSerialize;
 
 class Board implements \JsonSerializable
 {
-	use ClassSerialize;
+    use ClassSerialize;
 
-	/** @var int */
-	public $id;
+    /** @var int */
+    public $id;
 
-	/** @var string */
-	public $self;
+    /** @var string */
+    public $self;
 
-	/** @var string */
-	public $name;
+    /** @var string */
+    public $name;
 
-	/** @var string */
-	public $type;
+    /** @var string */
+    public $type;
 
-	/**
-	 * Location [\JiraRestApi\Board\Location].
-	 *
-	 * @var \JiraRestApi\Board\Location
-	 */
-	public $location;
+    /**
+     * Location [\JiraRestApi\Board\Location].
+     *
+     * @var \JiraRestApi\Board\Location
+     */
+    public $location;
 
-	/**
-	 * Get board id.
-	 */
-	public function getId()
-	{
-		return $this->id;
-	}
+    /**
+     * Get board id.
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
-	/**
-	 * Get board url.
-	 */
-	public function getSelf()
-	{
-		return $this->self;
-	}
+    /**
+     * Get board url.
+     */
+    public function getSelf()
+    {
+        return $this->self;
+    }
 
-	/**
-	 * Get board name.
-	 */
-	public function getName()
-	{
-		return $this->name;
-	}
+    /**
+     * Get board name.
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
 
-	/**
-	 * Get board type.
-	 */
-	public function getType()
-	{
-		return $this->type;
-	}
+    /**
+     * Get board type.
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
 
-	/**
-	 * Get location.
-	 */
-	public function getLocation()
-	{
-		return $this->location;
-	}
+    /**
+     * Get location.
+     */
+    public function getLocation()
+    {
+        return $this->location;
+    }
 
-	#[\ReturnTypeWillChange]
-	public function jsonSerialize(): array
-	{
-		return array_filter(get_object_vars($this), fn($var) => !is_null($var));
-	}
+    #[\ReturnTypeWillChange]
+    public function jsonSerialize(): array
+    {
+        return array_filter(get_object_vars($this), fn($var) => !is_null($var));
+    }
 }

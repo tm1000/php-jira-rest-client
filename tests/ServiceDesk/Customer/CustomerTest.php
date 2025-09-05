@@ -11,29 +11,29 @@ use stdClass;
 
 class CustomerTest extends TestCase
 {
-	public function testSetLinksArray(): void
-	{
-		$links = new stdClass();
-		$links->jiraRest = 'http://example.com';
-		$links->avatarUrls = new stdClass();
+    public function testSetLinksArray(): void
+    {
+        $links = new stdClass();
+        $links->jiraRest = 'http://example.com';
+        $links->avatarUrls = new stdClass();
 
-		$uut = new Customer();
-		$uut->setLinks($links);
+        $uut = new Customer();
+        $uut->setLinks($links);
 
-		self::assertInstanceOf(CustomerLinks::class, $uut->_links);
-		self::assertSame($links->jiraRest, $uut->_links->jiraRest);
-		self::assertSame($links->avatarUrls, $uut->_links->avatarUrls);
-	}
+        self::assertInstanceOf(CustomerLinks::class, $uut->_links);
+        self::assertSame($links->jiraRest, $uut->_links->jiraRest);
+        self::assertSame($links->avatarUrls, $uut->_links->avatarUrls);
+    }
 
-	public function testSetLinks(): void
-	{
-		$customerLinks = new CustomerLinks();
-		$customerLinks->jiraRest = 'http://example.com';
-		$customerLinks->avatarUrls = new stdClass();
+    public function testSetLinks(): void
+    {
+        $customerLinks = new CustomerLinks();
+        $customerLinks->jiraRest = 'http://example.com';
+        $customerLinks->avatarUrls = new stdClass();
 
-		$uut = new Customer();
-		$uut->setLinks($customerLinks);
+        $uut = new Customer();
+        $uut->setLinks($customerLinks);
 
-		self::assertSame($customerLinks, $uut->_links);
-	}
+        self::assertSame($customerLinks, $uut->_links);
+    }
 }

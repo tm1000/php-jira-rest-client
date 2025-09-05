@@ -8,90 +8,90 @@ use JiraRestApi\JsonSerializableTrait;
 
 class Sprint implements \JsonSerializable
 {
-	use JsonSerializableTrait;
+    use JsonSerializableTrait;
 
-	public string $self;
+    public string $self;
 
-	public string $id;
+    public string $id;
 
-	public string $name;
+    public string $name;
 
-	public string $state;
+    public string $state;
 
-	public string $startDate;
+    public string $startDate;
 
-	public string $endDate;
+    public string $endDate;
 
-	public string $activatedDate;
+    public string $activatedDate;
 
-	public string $completeDate;
+    public string $completeDate;
 
-	public string $originBoardId;
+    public string $originBoardId;
 
-	public string $createdDate;
+    public string $createdDate;
 
-	public string $goal;
+    public string $goal;
 
-	public array $issues;
+    public array $issues;
 
-	public function setNameAsString(string $sprintName): self
-	{
-		$this->name = $sprintName;
+    public function setNameAsString(string $sprintName): self
+    {
+        $this->name = $sprintName;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function setGoalAsString(string $sprintGoal): self
-	{
-		$this->goal = $sprintGoal;
+    public function setGoalAsString(string $sprintGoal): self
+    {
+        $this->goal = $sprintGoal;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function setOriginBoardIdAsStringOrInt(
-		string|int $originBoardId,
-	): self {
-		$this->originBoardId = strval($originBoardId);
+    public function setOriginBoardIdAsStringOrInt(
+        string|int $originBoardId
+    ): self {
+        $this->originBoardId = strval($originBoardId);
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function setStartDateAsDateTime(
-		\DateTimeInterface $startDate,
-		string $format = 'Y-m-d',
-	): static {
-		$this->startDate = $startDate->format($format);
+    public function setStartDateAsDateTime(
+        \DateTimeInterface $startDate,
+        string $format = 'Y-m-d'
+    ): static {
+        $this->startDate = $startDate->format($format);
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function setStartDateAsString(string $startDate): static
-	{
-		$this->startDate = $startDate;
+    public function setStartDateAsString(string $startDate): static
+    {
+        $this->startDate = $startDate;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function setEndDateAsDateTime(
-		\DateTimeInterface $endDate,
-		string $format = 'Y-m-d',
-	): static {
-		$this->endDate = $endDate->format($format);
+    public function setEndDateAsDateTime(
+        \DateTimeInterface $endDate,
+        string $format = 'Y-m-d'
+    ): static {
+        $this->endDate = $endDate->format($format);
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function setEndDateAsString(string $endDate): static
-	{
-		$this->endDate = $endDate;
+    public function setEndDateAsString(string $endDate): static
+    {
+        $this->endDate = $endDate;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function setMoveIssues(array $issues): static
-	{
-		$this->issues = $issues;
+    public function setMoveIssues(array $issues): static
+    {
+        $this->issues = $issues;
 
-		return $this;
-	}
+        return $this;
+    }
 }

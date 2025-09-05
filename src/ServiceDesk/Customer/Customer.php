@@ -10,31 +10,31 @@ use JsonSerializable;
 
 class Customer implements JsonSerializable
 {
-	use ClassSerialize;
-	use DataObjectTrait;
+    use ClassSerialize;
+    use DataObjectTrait;
 
-	public string $key;
-	public string $name;
-	public string $accountId;
-	public string $emailAddress;
-	public string $displayName;
-	public bool $active;
-	public string $timeZone;
-	public ?CustomerLinks $_links = null;
-	public string $self;
+    public string $key;
+    public string $name;
+    public string $accountId;
+    public string $emailAddress;
+    public string $displayName;
+    public bool $active;
+    public string $timeZone;
+    public ?CustomerLinks $_links = null;
+    public string $self;
 
-	public function setLinks($links): void
-	{
-		if ($links === null) {
-			return;
-		}
+    public function setLinks($links): void
+    {
+        if ($links === null) {
+            return;
+        }
 
-		if (!$links instanceof CustomerLinks) {
-			$data = $links;
+        if (!$links instanceof CustomerLinks) {
+            $data = $links;
 
-			$links = new CustomerLinks($data);
-		}
+            $links = new CustomerLinks($data);
+        }
 
-		$this->_links = $links;
-	}
+        $this->_links = $links;
+    }
 }

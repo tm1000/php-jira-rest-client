@@ -9,89 +9,89 @@ use JiraRestApi\ClassSerialize;
  */
 class PaginatedWorklog
 {
-	use ClassSerialize;
+    use ClassSerialize;
 
-	/**
-	 * @var int Start at position
-	 */
-	public $startAt;
+    /**
+     * @var int Start at position
+     */
+    public $startAt;
 
-	/**
-	 * @var int Maximum results
-	 */
-	public $maxResults;
+    /**
+     * @var int Maximum results
+     */
+    public $maxResults;
 
-	/**
-	 * @var int Total results
-	 */
-	public $total;
+    /**
+     * @var int Total results
+     */
+    public $total;
 
-	/**
-	 * @var \JiraRestApi\Issue\Worklog[] Worklog
-	 */
-	public $worklogs;
+    /**
+     * @var \JiraRestApi\Issue\Worklog[] Worklog
+     */
+    public $worklogs;
 
-	/**
-	 * @return int
-	 */
-	public function getStartAt()
-	{
-		return $this->startAt;
-	}
+    /**
+     * @return int
+     */
+    public function getStartAt()
+    {
+        return $this->startAt;
+    }
 
-	/**
-	 * @param int $startAt
-	 */
-	public function setStartAt($startAt)
-	{
-		$this->startAt = $startAt;
-	}
+    /**
+     * @param int $startAt
+     */
+    public function setStartAt($startAt)
+    {
+        $this->startAt = $startAt;
+    }
 
-	/**
-	 * @return int
-	 */
-	public function getMaxResults()
-	{
-		return $this->maxResults;
-	}
+    /**
+     * @return int
+     */
+    public function getMaxResults()
+    {
+        return $this->maxResults;
+    }
 
-	/**
-	 * @param int $maxResults
-	 */
-	public function setMaxResults($maxResults)
-	{
-		$this->maxResults = $maxResults;
-	}
+    /**
+     * @param int $maxResults
+     */
+    public function setMaxResults($maxResults)
+    {
+        $this->maxResults = $maxResults;
+    }
 
-	/**
-	 * @return int
-	 */
-	public function getTotal()
-	{
-		return $this->total;
-	}
+    /**
+     * @return int
+     */
+    public function getTotal()
+    {
+        return $this->total;
+    }
 
-	/**
-	 * @param int $total
-	 */
-	public function setTotal($total)
-	{
-		$this->total = $total;
-	}
+    /**
+     * @param int $total
+     */
+    public function setTotal($total)
+    {
+        $this->total = $total;
+    }
 
-	/**
-	 * @return \JiraRestApi\Issue\Worklog[] Worklogs
-	 */
-	public function getWorklogs()
-	{
-		return $this->worklogs;
-	}
+    /**
+     * @return \JiraRestApi\Issue\Worklog[] Worklogs
+     */
+    public function getWorklogs()
+    {
+        return $this->worklogs;
+    }
 
-	/**
-	 * @param \JiraRestApi\Issue\Worklog[] $worklogs
-	 */
-	public function setWorklogs($worklogs)
-	{
-		$this->worklogs = $worklogs;
-	}
+    /**
+     * @param \JiraRestApi\Issue\Worklog[] $worklogs
+     */
+    public function setWorklogs($worklogs)
+    {
+        $this->worklogs = $worklogs;
+    }
 }

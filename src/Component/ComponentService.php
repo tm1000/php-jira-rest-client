@@ -6,131 +6,131 @@ use JiraRestApi\JiraException;
 
 class ComponentService extends \JiraRestApi\JiraClient
 {
-	private $uri = '/component';
+    private $uri = '/component';
 
-	/**
-	 * Search components.
-	 *
-	 * @param string $query the string that components names will be matched with
-	 *
-	 * @throws \JsonMapper_Exception
-	 * @throws JiraException
-	 *
-	 * @return ComponentSearchResult
-	 */
-	public function search(
-		string $query = '',
-		int $startAt = 0,
-		int $maxResults = 15,
-		array $projectIds = [],
-	) {
-		$params = [
-			'query' => $query ?: null,
-			'startAt' => $startAt,
-			'maxResults' => $maxResults,
-			'projectIds' => $projectIds ?: null,
-		];
+    /**
+     * Search components.
+     *
+     * @param string $query the string that components names will be matched with
+     *
+     * @throws \JsonMapper_Exception
+     * @throws JiraException
+     *
+     * @return ComponentSearchResult
+     */
+    public function search(
+        string $query = '',
+        int $startAt = 0,
+        int $maxResults = 15,
+        array $projectIds = []
+    ) {
+        $params = [
+            'query' => $query ?: null,
+            'startAt' => $startAt,
+            'maxResults' => $maxResults,
+            'projectIds' => $projectIds ?: null,
+        ];
 
-		$ret = $this->exec(
-			$this->uri . '/page' . $this->toHttpQueryParameter($params, true),
-		);
+        $ret = $this->exec(
+            $this->uri . '/page' . $this->toHttpQueryParameter($params, true)
+        );
 
-		return $this->json_mapper->map(
-			json_decode($ret),
-			new ComponentSearchResult(),
-		);
-	}
+        return $this->json_mapper->map(
+            json_decode($ret),
+            new ComponentSearchResult()
+        );
+    }
 
-	/**
-	 * Function to create a new compoonent.
-	 *
-	 * @param Component|array $component
-	 *
-	 * @throws \JiraRestApi\JiraException
-	 * @throws \JsonMapper_Exception
-	 *
-	 * @return Component class
-	 */
-	public function create($component)
-	{
-		$data = json_encode($component);
+    /**
+     * Function to create a new compoonent.
+     *
+     * @param Component|array $component
+     *
+     * @throws \JiraRestApi\JiraException
+     * @throws \JsonMapper_Exception
+     *
+     * @return Component class
+     */
+    public function create($component)
+    {
+        $data = json_encode($component);
 
-		$this->log->info("Create Component=\n" . $data);
+        $this->log->info("Create Component=\n" . $data);
 
-		$ret = $this->exec($this->uri, $data, 'POST');
+        $ret = $this->exec($this->uri, $data, 'POST');
 
-		return $this->json_mapper->map(json_decode($ret), new Component());
-	}
+        return $this->json_mapper->map(json_decode($ret), new Component());
+    }
 
-	/**
-	 * get component.
-	 *
-	 * @param string|int $id component id
-	 *
-	 * @return Component
-	 */
-	public function get($id)
-	{
-		$ret = $this->exec($this->uri . '/' . $id);
+    /**
+     * get component.
+     *
+     * @param string|int $id component id
+     *
+     * @return Component
+     */
+    public function get($id)
+    {
+        $ret = $this->exec($this->uri . '/' . $id);
 
-		$this->log->info('Result=' . $ret);
+        $this->log->info('Result=' . $ret);
 
-		return $this->json_mapper->map(json_decode($ret), new Component());
-	}
+        return $this->json_mapper->map(json_decode($ret), new Component());
+    }
 
-	/**
-	 * @param Component $component
-	 *
-	 * @throws JiraException
-	 *
-	 * @return Component
-	 */
-	public function update(Component $component)
-	{
-		if (!$component->id || !is_numeric($component->id)) {
-			throw new JiraException(
-				$component->id . ' is not a valid component id.',
-			);
-		}
+    /**
+     * @param Component $component
+     *
+     * @throws JiraException
+     *
+     * @return Component
+     */
+    public function update(Component $component)
+    {
+        if (!$component->id || !is_numeric($component->id)) {
+            throw new JiraException(
+                $component->id . ' is not a valid component id.'
+            );
+        }
 
-		$data = json_encode($component);
-		$ret = $this->exec($this->uri . '/' . $component->id, $data, 'PUT');
+        $data = json_encode($component);
+        $ret = $this->exec($this->uri . '/' . $component->id, $data, 'PUT');
 
-		return $this->json_mapper->map(json_decode($ret), new Component());
-	}
+        return $this->json_mapper->map(json_decode($ret), new Component());
+    }
 
-	/**
-	 * @param Component       $component
-	 * @param Component|false $moveIssuesTo
-	 *
-	 * @throws JiraException
-	 *
-	 * @return string
-	 */
-	public function delete(Component $component, $moveIssuesTo = false)
-	{
-		if (!$component->id || !is_numeric($component->id)) {
-			throw new JiraException(
-				$component->id . ' is not a valid component id.',
-			);
-		}
+    /**
+     * @param Component       $component
+     * @param Component|false $moveIssuesTo
+     *
+     * @throws JiraException
+     *
+     * @return string
+     */
+    public function delete(Component $component, $moveIssuesTo = false)
+    {
+        if (!$component->id || !is_numeric($component->id)) {
+            throw new JiraException(
+                $component->id . ' is not a valid component id.'
+            );
+        }
 
-		$data = [];
-		$paramArray = [];
+        $data = [];
+        $paramArray = [];
 
-		if ($moveIssuesTo && $moveIssuesTo instanceof Component) {
-			$paramArray['moveIssuesTo'] = $moveIssuesTo->id;
-		}
+        if ($moveIssuesTo && $moveIssuesTo instanceof Component) {
+            $paramArray['moveIssuesTo'] = $moveIssuesTo->id;
+        }
 
-		$ret = $this->exec(
-			$this->uri .
-				'/' .
-				$component->id .
-				$this->toHttpQueryParameter($paramArray),
-			json_encode($data),
-			'DELETE',
-		);
+        $ret = $this->exec(
+            $this->uri .
+                '/' .
+                $component->id .
+                $this->toHttpQueryParameter($paramArray),
+            json_encode($data),
+            'DELETE'
+        );
 
-		return $ret;
-	}
+        return $ret;
+    }
 }

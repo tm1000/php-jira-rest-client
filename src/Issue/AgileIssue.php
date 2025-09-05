@@ -6,8 +6,8 @@ use JiraRestApi\JsonSerializableTrait;
 
 class AgileIssue extends Issue
 {
-	use JsonSerializableTrait;
+    use JsonSerializableTrait;
 
-	/** @var \JiraRestApi\Issue\AgileIssueFields */
-	public IssueField $fields;
+    /** @var \JiraRestApi\Issue\AgileIssueFields */
+    public IssueField $fields;
 }

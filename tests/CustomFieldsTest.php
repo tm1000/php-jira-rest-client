@@ -11,114 +11,114 @@ use JiraRestApi\JiraException;
 
 class CustomFieldsTest extends TestCase
 {
-	/**
-	 * @Test
-	 *
-	 * @return array|string[]|void
-	 */
-	public function get_customer_field()
-	{
-		try {
-			$iss = new IssueService();
+    /**
+     * @Test
+     *
+     * @return array|string[]|void
+     */
+    public function get_customer_field()
+    {
+        try {
+            $iss = new IssueService();
 
-			$paramArray = [
-				'startAt' => 1,
-				'maxResults' => 50,
-				'search' => null,
-				'projectIds' => [1, 2, 3],
-				'screenIds' => null,
-				'types' => null,
+            $paramArray = [
+                'startAt' => 1,
+                'maxResults' => 50,
+                'search' => null,
+                'projectIds' => [1, 2, 3],
+                'screenIds' => null,
+                'types' => null,
 
-				'sortOrder' => null,
-				'sortColumn' => null,
-				'lastValueUpdate' => null,
-			];
-			$customerFieldSearchResult = $iss->getCustomFields($paramArray);
+                'sortOrder' => null,
+                'sortColumn' => null,
+                'lastValueUpdate' => null,
+            ];
+            $customerFieldSearchResult = $iss->getCustomFields($paramArray);
 
-			$this->assertLessThan(1, $customerFieldSearchResult->total);
-		} catch (JiraException $e) {
-			$this->assertTrue(false, 'testSearch Failed : ' . $e->getMessage());
-		}
-	}
+            $this->assertLessThan(1, $customerFieldSearchResult->total);
+        } catch (JiraException $e) {
+            $this->assertTrue(false, 'testSearch Failed : ' . $e->getMessage());
+        }
+    }
 
-	public function testGetFields()
-	{
-		try {
-			$fieldService = new FieldService();
+    public function testGetFields()
+    {
+        try {
+            $fieldService = new FieldService();
 
-			$ret = $fieldService->getAllFields(Field::CUSTOM);
-			Dumper::dump($ret);
+            $ret = $fieldService->getAllFields(Field::CUSTOM);
+            Dumper::dump($ret);
 
-			file_put_contents(
-				'custom-field.json',
-				json_encode($ret, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT),
-			);
+            file_put_contents(
+                'custom-field.json',
+                json_encode($ret, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT)
+            );
 
-			$ids = array_map(function ($cf) {
-				// extract custom field id
-				preg_match('/\d+/', (string) $cf->id, $matches);
-				return $matches[0];
-			}, $ret);
+            $ids = array_map(function ($cf) {
+                // extract custom field id
+                preg_match('/\d+/', (string) $cf->id, $matches);
+                return $matches[0];
+            }, $ret);
 
-			$this->assertTrue(true);
-			return $ids;
-		} catch (JiraException $e) {
-			$this->assertTrue(false, 'testSearch Failed : ' . $e->getMessage());
-		}
-	}
+            $this->assertTrue(true);
+            return $ids;
+        } catch (JiraException $e) {
+            $this->assertTrue(false, 'testSearch Failed : ' . $e->getMessage());
+        }
+    }
 
-	/**
-	 * @depends testGetFields
-	 *
-	 * @param $ids
-	 */
-	public function testGetFieldOptions($ids)
-	{
-		try {
-			$fieldService = new FieldService();
+    /**
+     * @depends testGetFields
+     *
+     * @param $ids
+     */
+    public function testGetFieldOptions($ids)
+    {
+        try {
+            $fieldService = new FieldService();
 
-			foreach ($ids as $id) {
-				try {
-					$ret = $fieldService->getCustomFieldOption($id);
-					Dumper::dump($ret);
-				} catch (JiraException) {
-				}
-			}
-			$this->assertTrue(true);
-		} catch (JiraException $e) {
-			$this->assertTrue(
-				false,
-				'testGetFieldOptions Failed : ' . $e->getMessage(),
-			);
-		}
-	}
+            foreach ($ids as $id) {
+                try {
+                    $ret = $fieldService->getCustomFieldOption($id);
+                    Dumper::dump($ret);
+                } catch (JiraException) {
+                }
+            }
+            $this->assertTrue(true);
+        } catch (JiraException $e) {
+            $this->assertTrue(
+                false,
+                'testGetFieldOptions Failed : ' . $e->getMessage()
+            );
+        }
+    }
 
-	public function testCreateFields()
-	{
-		//$this->markTestSkipped();
-		try {
-			$field = new Field();
+    public function testCreateFields()
+    {
+        //$this->markTestSkipped();
+        try {
+            $field = new Field();
 
-			$field
-				->setName('다중 선택이')
-				->setDescription('Custom field for picking groups')
-				->setType(
-					'com.atlassian.jira.plugin.system.customfieldtypes:cascadingselect',
-					//    ->setSearcherKey('com.atlassian.jira.plugin.system.customfieldtypes:grouppickersearcher')
-				);
+            $field
+                ->setName('다중 선택이')
+                ->setDescription('Custom field for picking groups')
+                ->setType(
+                    'com.atlassian.jira.plugin.system.customfieldtypes:cascadingselect'
+                    //    ->setSearcherKey('com.atlassian.jira.plugin.system.customfieldtypes:grouppickersearcher')
+                );
 
-			$fieldService = new FieldService();
+            $fieldService = new FieldService();
 
-			$ret = $fieldService->create($field);
+            $ret = $fieldService->create($field);
 
-			$this->assertTrue(true);
+            $this->assertTrue(true);
 
-			Dumper::dump($ret);
-		} catch (JiraException $e) {
-			$this->assertTrue(
-				false,
-				'Field Create Failed : ' . $e->getMessage(),
-			);
-		}
-	}
+            Dumper::dump($ret);
+        } catch (JiraException $e) {
+            $this->assertTrue(
+                false,
+                'Field Create Failed : ' . $e->getMessage()
+            );
+        }
+    }
 }

@@ -8,9 +8,9 @@ use JiraRestApi\ClassSerialize;
 
 class Property
 {
-	use ClassSerialize;
+    use ClassSerialize;
 
-	public string $key;
+    public string $key;
 
-	public string $value;
+    public string $value;
 }

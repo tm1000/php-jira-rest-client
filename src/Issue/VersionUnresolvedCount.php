@@ -4,29 +4,29 @@ namespace JiraRestApi\Issue;
 
 class VersionUnresolvedCount implements \JsonSerializable
 {
-	/** @var string */
-	public $self;
+    /** @var string */
+    public $self;
 
-	/** @var int */
-	public $issuesUnresolvedCount;
+    /** @var int */
+    public $issuesUnresolvedCount;
 
-	#[\ReturnTypeWillChange]
-	public function jsonSerialize(): array
-	{
-		return array_filter(get_object_vars($this));
-	}
+    #[\ReturnTypeWillChange]
+    public function jsonSerialize(): array
+    {
+        return array_filter(get_object_vars($this));
+    }
 
-	public function setSelf($self)
-	{
-		$this->self = $self;
+    public function setSelf($self)
+    {
+        $this->self = $self;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function setIssuesUnresolvedCount($issuesUnresolvedCount)
-	{
-		$this->issuesUnresolvedCount = $issuesUnresolvedCount;
+    public function setIssuesUnresolvedCount($issuesUnresolvedCount)
+    {
+        $this->issuesUnresolvedCount = $issuesUnresolvedCount;
 
-		return $this;
-	}
+        return $this;
+    }
 }

@@ -14,87 +14,87 @@ use JiraRestApi\User\User;
  */
 class Component implements \JsonSerializable
 {
-	use ClassSerialize;
+    use ClassSerialize;
 
-	/** uri which was hit.  */
-	public string $self;
+    /** uri which was hit.  */
+    public string $self;
 
-	public string $id;
+    public string $id;
 
-	public string $name;
+    public string $name;
 
-	public string $description;
+    public string $description;
 
-	public ?User $lead = null;
+    public ?User $lead = null;
 
-	public string $leadUserName;
+    public string $leadUserName;
 
-	public string $assigneeType;
+    public string $assigneeType;
 
-	public int $projectId;
+    public int $projectId;
 
-	public string $project;
+    public string $project;
 
-	public bool $isAssigneeTypeValid;
+    public bool $isAssigneeTypeValid;
 
-	public function getName(): string
-	{
-		return $this->name;
-	}
+    public function getName(): string
+    {
+        return $this->name;
+    }
 
-	public function setName(string $name): static
-	{
-		$this->name = $name;
+    public function setName(string $name): static
+    {
+        $this->name = $name;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function setDescription($description): static
-	{
-		$this->description = $description;
+    public function setDescription($description): static
+    {
+        $this->description = $description;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function setLeadUserName(string $leadUserName): static
-	{
-		$this->leadUserName = $leadUserName;
+    public function setLeadUserName(string $leadUserName): static
+    {
+        $this->leadUserName = $leadUserName;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function setAssigneeType(string $assigneeType): static
-	{
-		$this->assigneeType = $assigneeType;
+    public function setAssigneeType(string $assigneeType): static
+    {
+        $this->assigneeType = $assigneeType;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function setAssigneeTypeAsEnum(
-		AssigneeTypeEnum $assigneeType,
-	): static {
-		$this->assigneeType = $assigneeType->type();
+    public function setAssigneeTypeAsEnum(
+        AssigneeTypeEnum $assigneeType
+    ): static {
+        $this->assigneeType = $assigneeType->type();
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function setProjectKey(string $projectKey): static
-	{
-		$this->project = $projectKey;
+    public function setProjectKey(string $projectKey): static
+    {
+        $this->project = $projectKey;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function setProject(string $project): static
-	{
-		$this->project = $project;
+    public function setProject(string $project): static
+    {
+        $this->project = $project;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	#[\ReturnTypeWillChange]
-	public function jsonSerialize(): array
-	{
-		return array_filter(get_object_vars($this), fn($var) => !is_null($var));
-	}
+    #[\ReturnTypeWillChange]
+    public function jsonSerialize(): array
+    {
+        return array_filter(get_object_vars($this), fn($var) => !is_null($var));
+    }
 }
